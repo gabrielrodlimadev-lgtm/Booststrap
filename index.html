@@ -64,9 +64,34 @@
                     <button class="btn btn-outline-success" 
                     type="submit">Pesquisa</button>
                 </form>
+                <button id="themeToggleBtn" class="btn btn-outline-success ms-2" type="button" aria-label="Ativar tema claro">
+                    <span id="themeToggleIcon">🌙</span>
+                </button>
             </div>
         </div>
     </nav>
+
+    <script>
+        const root = document.documentElement;
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeToggleIcon = document.getElementById('themeToggleIcon');
+
+        function applyTheme(theme) {
+            root.setAttribute('data-bs-theme', theme);
+            themeToggleIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
+            themeToggleBtn.setAttribute('aria-label', theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro');
+        }
+
+        const savedTheme = localStorage.getItem('theme');
+        const initialTheme = savedTheme || root.getAttribute('data-bs-theme') || 'dark';
+        applyTheme(initialTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const nextTheme = root.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme', nextTheme);
+            applyTheme(nextTheme);
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
